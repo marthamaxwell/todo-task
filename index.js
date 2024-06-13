@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import todoRoutes from "./todoRoutes.js";
-
+import todoRoutes from "./routes/todoRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -10,8 +10,8 @@ const myPort = 3001;
 const DB = process.env.DATABASE;
 
 app.use(express.json());
-
 app.use("/", todoRoutes);
+app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("hello world");

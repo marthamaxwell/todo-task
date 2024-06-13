@@ -1,4 +1,4 @@
-import Todo from "./model.js";
+import Todo from "../models/todoModel.js";
 
 //get all todo
 const allTodos = async (req, res) => {
@@ -7,7 +7,7 @@ const allTodos = async (req, res) => {
     res.status(200).json({
       Success: true,
       message: "All Todos",
-      allTodos: todo,
+      allTodos: to     do,
     });
   } catch {
     res.status(500).json({
@@ -21,7 +21,15 @@ const allTodos = async (req, res) => {
 //create todo
 const createTodo = async (req, res) => {
   try {
-    const todo = await Todo.create(req.body);
+    const { title, isCompleted, description } = req.body;
+
+    const todo = await Todo.create({
+      title,
+      isCompleted,
+      description,
+      user: req.user_id,
+    });
+    await todo.populate({ path: "user", select: "firstName" });
     res.status(200).json({
       Success: true,
       message: "Todo created Successfully",
